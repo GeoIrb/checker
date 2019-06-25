@@ -1,3 +1,8 @@
 *.log
-checker
+
 test*
+
+checker
+hash
+keywords
+sysytem
