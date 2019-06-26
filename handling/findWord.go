@@ -27,7 +27,6 @@ func keywords(data string, controlType string, listWord string) (status int, lis
 	status = 0
 
 	if data == "" {
-		status = 2
 		return
 	}
 
@@ -44,7 +43,6 @@ func system(data string, listWord string) (status int, list string, count int) {
 	status = 0
 
 	if data == "" {
-		status = 2
 		return
 	}
 

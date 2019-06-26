@@ -1,9 +1,9 @@
 package handling
 
 import (
+	"fmt"
 	"geoirb/checker/app"
 	"geoirb/checker/site"
-	"log"
 	"strings"
 	"sync"
 	"time"
@@ -17,7 +17,7 @@ func Start(cfg app.Data) {
 	name := cfg.Name[strings.LastIndex(cfg.Name, "/")+1:]
 
 	data := site.Select(cfg)
-	resChan := make(chan site.Result)
+	// resChan := make(chan site.Result)
 
 	n := int(len(data.Sites) / theards)
 	if int(len(data.Sites)%theards) > 0 {
@@ -43,7 +43,18 @@ func Start(cfg app.Data) {
 					url = s.UpURL
 				}
 
-				html, _ := site.HTTPGet(url, timeout)
+				html, err := site.HTTPGet(url, timeout)
+
+				// fmt.Println(len(html), err)
+
+				if err != nil && err.Error() == "No response" {
+					fmt.Println(url, err)
+
+					// result.Status = 2
+					cfg.Err(url)
+					// resChan <- result
+					continue
+				}
 
 				switch result.Type {
 				case "hash":
@@ -53,13 +64,10 @@ func Start(cfg app.Data) {
 				case "keywords":
 					result.Status, result.Keywords, result.Count = keywords(string(html), s.Type, s.Keywords)
 				default:
-					log.Fatalln("Unknown checker type")
-				}
-				if result.Status == 2 {
-					cfg.Err(url)
+					cfg.Err("Unknown checker type")
 				}
 
-				resChan <- result
+				// resChan <- result
 			}
 		}(wg, data.Sites[:n])
 
@@ -69,8 +77,8 @@ func Start(cfg app.Data) {
 		}
 	}
 
-	go site.Insert(cfg, resChan)
+	// go site.Insert(cfg, resChan)
 
 	wg.Wait()
-	close(resChan)
+	// close(resChan)
 }

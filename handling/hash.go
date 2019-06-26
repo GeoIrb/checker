@@ -9,7 +9,7 @@ func hash(data []byte, control string) (status int, hash string) {
 	status = 0
 
 	if data == nil {
-		status = 2
+		status = 0
 		return
 	}
 

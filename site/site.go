@@ -2,13 +2,14 @@ package site
 
 import (
 	"crypto/tls"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
 )
 
-func HTTPGet(url string, timeout time.Duration) (content []byte, err error) {
+func HTTPGet(url string, timeout time.Duration) ([]byte, error) {
 
 	netClient := &http.Client{
 		Timeout: timeout,
@@ -30,7 +31,7 @@ func HTTPGet(url string, timeout time.Duration) (content []byte, err error) {
 	response, err := netClient.Do(req)
 
 	if err != nil && strings.Index(err.Error(), "imeout") != -1 {
-		return
+		return nil, fmt.Errorf("No connect")
 	}
 
 	if response == nil {
@@ -42,11 +43,10 @@ func HTTPGet(url string, timeout time.Duration) (content []byte, err error) {
 		response, err = netClient.Do(req)
 
 		if response == nil {
-			return
+			return nil, fmt.Errorf("No response")
 		}
 	}
 	defer response.Body.Close()
 
-	content, err = ioutil.ReadAll(response.Body)
-	return
+	return ioutil.ReadAll(response.Body)
 }
