@@ -26,10 +26,6 @@ func findKeywords(in, keywords string) (words string, count int) {
 func keywords(data string, controlType string, listWord string) (status int, list string, count int) {
 	status = 0
 
-	if data == "" {
-		return
-	}
-
 	list, count = findKeywords(data, listWord)
 
 	if count == 0 && controlType == "out" || count > 0 && controlType == "in" {
@@ -41,10 +37,6 @@ func keywords(data string, controlType string, listWord string) (status int, lis
 
 func system(data string, listWord string) (status int, list string, count int) {
 	status = 0
-
-	if data == "" {
-		return
-	}
 
 	list, count = findKeywords(data, listWord)
 

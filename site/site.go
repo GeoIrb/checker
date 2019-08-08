@@ -30,7 +30,7 @@ func HTTPGet(url string, timeout time.Duration) ([]byte, error) {
 
 	response, err := netClient.Do(req)
 
-	if err != nil && strings.Index(err.Error(), "imeout") != -1 {
+	if err != nil && strings.Index(err.Error(), "(Client.Timeout exceeded while awaiting headers)") >= 0 {
 		return nil, fmt.Errorf("No connect")
 	}
 
@@ -40,7 +40,11 @@ func HTTPGet(url string, timeout time.Duration) ([]byte, error) {
 		req, _ = http.NewRequest("GET", url, nil)
 		req.Header.Set("User-Agent", "Checker")
 
-		response, err = netClient.Do(req)
+		response, _ = netClient.Do(req)
+
+		if err != nil && strings.Index(err.Error(), "(Client.Timeout exceeded while awaiting headers)") >= 0 {
+			return nil, fmt.Errorf("No connect")
+		}
 
 		if response == nil {
 			return nil, fmt.Errorf("No response")

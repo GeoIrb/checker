@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-
 	step := app.TickInit(time.Duration(app.Load("time")["sleep"].(int)) * time.Second)
 	for {
 		select {
