@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/checker/app"
-	"github.com/checker/site"
+	"github.com/GeoIrb/checker/app"
+	"github.com/GeoIrb/checker/site"
 )
 
 func Start(cfg app.Data) {

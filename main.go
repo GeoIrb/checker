@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/checker/app"
-	"github.com/checker/handling"
+	"github.com/GeoIrb/checker/app"
+	"github.com/GeoIrb/checker/handling"
 )
 
 func main() {
