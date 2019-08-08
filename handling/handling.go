@@ -1,11 +1,12 @@
 package handling
 
 import (
-	"geoirb/checker/app"
-	"geoirb/checker/site"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/checker/app"
+	"github.com/checker/site"
 )
 
 func Start(cfg app.Data) {

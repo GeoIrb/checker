@@ -1,6 +1,6 @@
 package site
 
-import "geoirb/checker/app"
+import "github.com/checker/app"
 
 func Insert(cfg app.Data, results chan Result) {
 	defer cfg.Completion("InsertData")

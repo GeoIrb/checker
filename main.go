@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"geoirb/checker/app"
-	"geoirb/checker/handling"
 	"time"
+
+	"github.com/checker/app"
+	"github.com/checker/handling"
 )
 
 func main() {
