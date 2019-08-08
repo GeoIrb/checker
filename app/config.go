@@ -53,7 +53,7 @@ func Load(field string) map[interface{}]interface{} {
 }
 
 //Init начальная настройка приложения
-func Init(args ...string) (app Data) {
+func Start(args ...string) (app Data) {
 	app.Name = Load("application")["name"].(string)
 	app.db = connectDB(args...)
 	app.l = openLog()

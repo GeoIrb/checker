@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
-	"geoirb/checker/app"
-	"geoirb/checker/handling"
+
 	"log"
 	"os"
 	"time"
+
+	"github.com/GeoIrb/checker/app"
+	"github.com/GeoIrb/checker/handling"
 )
 
 const VERSION string = "1.0.0"
@@ -16,7 +18,7 @@ const HASH string = "Проверка хеш сумм"
 
 func main() {
 
-	if len(os.Args) > 0 && os.Args[1] == "-v" {
+	if len(os.Args) > 1 && os.Args[1] == "-v" {
 		log.Println("Версия: ", VERSION)
 
 		log.Print("Описание: ")
@@ -35,7 +37,7 @@ func main() {
 	for {
 		select {
 		case <-step.Next:
-			conn := app.Init()
+			conn := app.Start()
 
 			startTime := time.Now()
 			handling.Start(conn)
