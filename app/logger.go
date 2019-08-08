@@ -17,7 +17,7 @@ func openLog() logger {
 		err:  log.New(os.Stdout, "", 0),
 	}
 
-	logFile := fmt.Sprintf("%s.log", getNameFile())
+	logFile := fmt.Sprintf("%s.log", GetNameApp())
 	if _, err := os.Stat(logFile); os.IsNotExist(err) {
 		if _, err := os.Create(logFile); err != nil {
 			log.Println(err)
@@ -25,7 +25,7 @@ func openLog() logger {
 		}
 	}
 
-	errFile := fmt.Sprintf("%s_err.log", getNameFile())
+	errFile := fmt.Sprintf("%s_err.log", GetNameApp())
 	if _, err := os.Stat(errFile); os.IsNotExist(err) {
 		if _, err := os.Create(errFile); err != nil {
 			log.Println(err)

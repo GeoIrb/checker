@@ -19,7 +19,7 @@ type Data struct {
 	l    logger
 }
 
-func getNameFile() string {
+func GetNameApp() string {
 	if strings.Index(os.Args[0], "debug") > -1 {
 		return "debug"
 	}
@@ -33,7 +33,7 @@ func getNameFile() string {
 //Имя конфигурационного файла совпадает с именем запускаемого файла
 //Расширение конфигурационого файла .conf
 func Load(field string) map[interface{}]interface{} {
-	fileConfig := fmt.Sprintf("%s.conf", getNameFile())
+	fileConfig := fmt.Sprintf("%s.conf", GetNameApp())
 
 	if _, err := os.Stat(fileConfig); os.IsNotExist(err) {
 		log.Fatalln("Config file is not exist")
