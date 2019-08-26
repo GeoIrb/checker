@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/GeoIrb/checker/app"
+	"github.com/GeoIrb/app"
 	"github.com/GeoIrb/checker/handling"
 )
 
@@ -22,7 +22,7 @@ func main() {
 		log.Println("Версия: ", VERSION)
 
 		log.Print("Описание: ")
-		switch app.GetNameApp() {
+		switch os.Args[0] {
 		case "hash":
 			log.Println(HASH)
 		case "system":

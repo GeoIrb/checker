@@ -1,13 +1,13 @@
 package site
 
-import "github.com/GeoIrb/checker/app"
+import "github.com/GeoIrb/app"
 
 func Insert(cfg app.Data, results chan Result) {
 	defer cfg.Completion("InsertData")
 
 	query := app.Load("sql")
 
-	connection := cfg.Prepare(query["insert"].(string))
+	connection, _ := cfg.Prepare(query["insert"].(string))
 	defer connection.Close()
 
 	for r := range results {
@@ -24,7 +24,7 @@ func Select(cfg app.Data) (data Data) {
 
 	cfg.Select(&data.Sites, query["select"].(string))
 
-	if cfg.Name == "system" {
+	if app.GetPath() == "system" {
 		cfg.Get(&data.List, query["select_system_word"].(string))
 	}
 

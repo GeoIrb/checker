@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/GeoIrb/checker/app"
+	"github.com/GeoIrb/app"
 	"github.com/GeoIrb/checker/site"
 )
 
@@ -14,7 +14,7 @@ func Start(cfg app.Data) {
 
 	theards := app.Load("thread")["number"].(int)
 	timeout := time.Duration(app.Load("time")["request"].(int)) * time.Second
-	name := cfg.Name[strings.LastIndex(cfg.Name, "/")+1:]
+	name := app.GetPath()[strings.LastIndex(app.GetPath(), "/")+1:]
 
 	data := site.Select(cfg)
 	resChan := make(chan site.Result)
