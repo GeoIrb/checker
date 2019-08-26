@@ -33,17 +33,17 @@ func main() {
 		return
 	}
 
-	step := app.TickInit(time.Duration(app.Load("time")["sleep"].(int)) * time.Second)
+	step := app.NewTick(time.Duration(app.Load("time")["sleep"].(int)) * time.Second)
 	for {
 		select {
-		case <-step.Next:
-			conn := app.Start()
+		case <-step.Step:
+			conn := app.Init()
 
 			startTime := time.Now()
 			handling.Start(conn)
 
 			fmt.Printf("\nTime to check %v\n\n", time.Now().Sub(startTime))
-			conn.Pause()
+			conn.Disconnect()
 		}
 		step.Wait()
 	}
