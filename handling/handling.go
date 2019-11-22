@@ -5,18 +5,18 @@ import (
 	"sync"
 	"time"
 
-	"github.com/GeoIrb/app"
-	"github.com/GeoIrb/checker/site"
+	"checker/app"
+	"checker/site"
 )
 
-func Start(cfg app.Data) {
+func Start(env app.Data) {
 	wg := &sync.WaitGroup{}
 
 	theards := app.Load("thread")["number"].(int)
 	timeout := time.Duration(app.Load("time")["request"].(int)) * time.Second
 	name := app.GetPath()[strings.LastIndex(app.GetPath(), "/")+1:]
 
-	data := site.Select(cfg)
+	data := site.Select(env)
 	resChan := make(chan site.Result)
 
 	n := int(len(data.Sites) / theards)
@@ -47,7 +47,7 @@ func Start(cfg app.Data) {
 
 				if err != nil && err.Error() == "No response" {
 					result.Status = 2
-					cfg.Err(url)
+					env.Err(url)
 					resChan <- result
 					continue
 				}
@@ -60,7 +60,7 @@ func Start(cfg app.Data) {
 				case "keywords":
 					result.Status, result.Keywords, result.Count = keywords(string(html), s.Type, s.Keywords)
 				default:
-					cfg.Err("Unknown checker type")
+					env.Err("Unknown checker type")
 				}
 
 				resChan <- result
@@ -73,7 +73,7 @@ func Start(cfg app.Data) {
 		}
 	}
 
-	go site.Insert(cfg, resChan)
+	go site.Insert(env, resChan)
 
 	wg.Wait()
 	close(resChan)

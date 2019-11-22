@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/GeoIrb/app"
-	"github.com/GeoIrb/checker/handling"
+	"checker/app"
+	"checker/handling"
 )
 
 const VERSION string = "1.0.0"
@@ -43,7 +43,7 @@ func main() {
 			handling.Start(conn)
 
 			fmt.Printf("\nTime to check %v\n\n", time.Now().Sub(startTime))
-			conn.Disconnect()
+			conn.Stop()
 		}
 		step.Wait()
 	}

@@ -1,31 +1,31 @@
 package site
 
-import "github.com/GeoIrb/app"
+import "checker/app"
 
-func Insert(cfg app.Data, results chan Result) {
-	defer cfg.Completion("InsertData")
+func Insert(env app.Data, results chan Result) {
+	defer env.Completion("InsertData")
 
 	query := app.Load("sql")
 
-	connection, _ := cfg.Prepare(query["insert"].(string))
+	connection, _ := env.Prepare(query["insert"].(string))
 	defer connection.Close()
 
 	for r := range results {
 		if _, err := connection.Exec(r.Type, r.ID, r.Status, r.Keywords, r.Count); err != nil {
-			cfg.Err("InsertResult error: %s", err.Error())
+			env.Err("InsertResult error: %s", err.Error())
 		}
 	}
 }
 
-func Select(cfg app.Data) (data Data) {
-	defer cfg.Completion("SelectData")
+func Select(env app.Data) (data Data) {
+	defer env.Completion("SelectData")
 
 	query := app.Load("sql")
 
-	cfg.Select(&data.Sites, query["select"].(string))
+	env.Select(&data.Sites, query["select"].(string))
 
 	if app.GetPath() == "system" {
-		cfg.Get(&data.List, query["select_system_word"].(string))
+		env.Get(&data.List, query["select_system_word"].(string))
 	}
 
 	return
